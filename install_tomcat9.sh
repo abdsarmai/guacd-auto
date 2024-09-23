@@ -27,19 +27,19 @@ exit_if_error "Échec de l'extraction"
 
 # 3. Déplacer Tomcat dans le répertoire approprié
 echo "Déplacement de Tomcat vers ${TOMCAT_DIR}..."
-sudo mv apache-tomcat-${TOMCAT_VERSION} ${TOMCAT_DIR}
+mv apache-tomcat-${TOMCAT_VERSION} ${TOMCAT_DIR}
 exit_if_error "Échec du déplacement de Tomcat"
 
 # 4. Créer un utilisateur Tomcat
 echo "Création de l'utilisateur et groupe ${USER_TOMCAT}..."
-sudo useradd -r -m -U -d ${TOMCAT_DIR} -s /bin/false ${USER_TOMCAT}
-sudo chown -R ${USER_TOMCAT}:${USER_TOMCAT} ${TOMCAT_DIR}
-sudo chmod -R 755 ${TOMCAT_DIR}
+useradd -r -m -U -d ${TOMCAT_DIR} -s /bin/false ${USER_TOMCAT}
+chown -R ${USER_TOMCAT}:${USER_TOMCAT} ${TOMCAT_DIR}
+chmod -R 755 ${TOMCAT_DIR}
 exit_if_error "Échec de la création de l'utilisateur Tomcat"
 
 # 5. Créer le fichier de service systemd
 echo "Création du fichier de service systemd pour Tomcat..."
-sudo bash -c "cat > /etc/systemd/system/tomcat.service <<EOL
+cat > /etc/systemd/system/tomcat.service <<EOL
 [Unit]
 Description=Apache Tomcat Web Application Container
 After=network.target
@@ -50,30 +50,30 @@ Type=forking
 User=${USER_TOMCAT}
 Group=${USER_TOMCAT}
 
-Environment=\"JAVA_HOME=/usr/lib/jvm/default-java\"
-Environment=\"CATALINA_PID=${TOMCAT_DIR}/temp/tomcat.pid\"
-Environment=\"CATALINA_HOME=${TOMCAT_DIR}\"
-Environment=\"CATALINA_BASE=${TOMCAT_DIR}\"
-Environment=\"CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC\"
-Environment=\"JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom\"
+Environment="JAVA_HOME=/usr/lib/jvm/default-java"
+Environment="CATALINA_PID=${TOMCAT_DIR}/temp/tomcat.pid"
+Environment="CATALINA_HOME=${TOMCAT_DIR}"
+Environment="CATALINA_BASE=${TOMCAT_DIR}"
+Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+Environment="JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom"
 
 ExecStart=${TOMCAT_DIR}/bin/startup.sh
 ExecStop=${TOMCAT_DIR}/bin/shutdown.sh
 
 [Install]
 WantedBy=multi-user.target
-EOL"
+EOL
 exit_if_error "Échec de la création du fichier systemd"
 
 # 6. Recharger systemd et démarrer Tomcat
 echo "Rechargement de systemd et démarrage de Tomcat..."
-sudo systemctl daemon-reload
-sudo systemctl start tomcat
-sudo systemctl enable tomcat
+systemctl daemon-reload
+systemctl start tomcat
+systemctl enable tomcat
 exit_if_error "Échec du démarrage de Tomcat"
 
 # 7. Vérification du statut de Tomcat
 echo "Vérification du statut de Tomcat..."
-sudo systemctl status tomcat --no-pager
+systemctl status tomcat --no-pager
 
 echo "Installation de Tomcat9 terminée avec succès !"
