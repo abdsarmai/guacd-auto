@@ -49,7 +49,7 @@ mysql_secure_installation
 # Créer la base de données et l'utilisateur pour Guacamole
 mysql -u root -p <<MYSQL_SCRIPT
 CREATE DATABASE guacadb;
-CREATE USER 'guaca_nachos'@'localhost' IDENTIFIED BY 'P@ssword!';
+CREATE USER 'guaca_nachos'@'localhost' IDENTIFIED BY 'Azerty@2024!';
 GRANT SELECT,INSERT,UPDATE,DELETE ON guacadb.* TO 'guaca_nachos'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
@@ -77,7 +77,7 @@ mysql-hostname: 127.0.0.1
 mysql-port: 3306
 mysql-database: guacadb
 mysql-username: guaca_nachos
-mysql-password: P@ssword!
+mysql-password: Azerty@2024!
 EOL
 
 # Configurer le fichier guacd.conf
