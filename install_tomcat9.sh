@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-TOMCAT_VERSION=9.0.80
+TOMCAT_VERSION=9.0.95
 TOMCAT_DIR=/opt/tomcat9
 USER_TOMCAT=tomcat
 DOWNLOAD_URL="https://dlcdn.apache.org/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz"
